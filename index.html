@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LAKI VEHICLES SALES PLATFORM</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: #222;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+.container {
+    padding: 20px;
+}
+.hidden {
+    display: none;
+}
+input, textarea, select, button {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+}
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.chat-box {
+    border: 1px solid #ccc;
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+}
+.message {
+    margin: 5px 0;
+}
+.seller {
+    color: green;
+}
+.buyer {
+    color: blue;
+}
+.cart-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.cart-icon:hover {
+    background: #0056b3;
+}
+.cart-badge {
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 18px;
+    text-align: center;
+}
+.cart-view {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+    padding: 20px;
+}
+.cart-view.open {
+    right: 0;
+}
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+}
+.cart-overlay.show {
+    display: block;
+}
+.cart-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+.cart-item:last-child {
+    border-bottom: none;
+}
+.cart-item img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.btn-remove {
+    background: #dc3545;
+    margin-top: 10px;
+}
+.btn-remove:hover {
+    background: #c82333;
+}
+.favorite-btn {
+    background: #28a745;
+    margin-top: 5px;
+}
+.favorite-btn:hover {
+    background: #218838;
+}
+.favorite-btn.added {
+    background: #dc3545;
+}
+.favorite-btn.added:hover {
+    background: #c82333;
+}
+.contact-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.btn-call {
+    background: #28a745;
+    flex: 1;
+}
+.btn-call:hover {
+    background: #218838;
+}
+.btn-whatsapp {
+    background: #25D366;
+    flex: 1;
+}
+.btn-whatsapp:hover {
+    background: #20BA5A;
+}
+.empty-cart {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+.image-gallery {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.image-slider {
+    display: flex;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+.image-slider img {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    cursor: pointer;
+}
+.image-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+.image-nav:hover {
+    background: rgba(0,0,0,0.8);
+}
+.image-nav.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+.image-nav.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
+.image-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+}
+.image-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.image-indicator.active {
+    background: white;
+}
+.image-counter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    z-index: 10;
+}
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 20px 15px;
+    cursor: pointer;
+    font-size: 30px;
+    z-index: 10001;
+    transition: background 0.3s;
+    border-radius: 5px;
+}
+.modal-nav:hover {
+    background: rgba(255,255,255,0.4);
+}
+.modal-prev {
+    left: 20px;
+}
+.modal-next {
+    right: 20px;
+}
+.modal-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 10001;
+}
+footer a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 24px;
+    transition: transform 0.2s;
+}
+footer a:hover {
+    transform: scale(1.2);
+}
+footer p {
+    margin: 10px 0;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🚗 LAKI VEHICLES SALES PLATFORM</h1>
+</header>
+
+<div class="container">
+
+    <!-- LOGIN -->
+    <div id="login">
+        <h2>Register / Login</h2>
+        <input id="username" placeholder="Enter name" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="tel" id="whatsapp" placeholder="WhatsApp Number" required>
+        <select id="role">
+            <option value="buyer">Buyer</option>
+            <option value="seller">Seller</option>
+        </select>
+        <button onclick="login()">Continue</button>
+    </div>
+
+    <!-- SELLER DASHBOARD -->
+    <div id="sellerDashboard" class="hidden">
+        <h2>Seller Dashboard</h2>
+        <div style="background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+            <h3>Add New Vehicle</h3>
+            <input id="vehicleName" placeholder="Vehicle Name *" required>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Location (County) *</label>
+            <select id="vehicleLocation" required>
+                <option value="">Select County</option>
+                <option value="Nairobi">Nairobi</option>
+                <option value="Mombasa">Mombasa</option>
+                <option value="Kisumu">Kisumu</option>
+                <option value="Nakuru">Nakuru</option>
+                <option value="Eldoret">Eldoret</option>
+                <option value="Thika">Thika</option>
+                <option value="Malindi">Malindi</option>
+                <option value="Kitale">Kitale</option>
+                <option value="Garissa">Garissa</option>
+                <option value="Kakamega">Kakamega</option>
+                <option value="Nyeri">Nyeri</option>
+                <option value="Meru">Meru</option>
+                <option value="Machakos">Machakos</option>
+                <option value="Embu">Embu</option>
+                <option value="Kisii">Kisii</option>
+                <option value="Bungoma">Bungoma</option>
+                <option value="Busia">Busia</option>
+                <option value="Homa Bay">Homa Bay</option>
+                <option value="Kilifi">Kilifi</option>
+                <option value="Kericho">Kericho</option>
+                <option value="Lamu">Lamu</option>
+                <option value="Mandera">Mandera</option>
+                <option value="Marsabit">Marsabit</option>
+                <option value="Migori">Migori</option>
+                <option value="Murang'a">Murang'a</option>
+                <option value="Nyandarua">Nyandarua</option>
+                <option value="Nandi">Nandi</option>
+                <option value="Narok">Narok</option>
+                <option value="Samburu">Samburu</option>
+                <option value="Siaya">Siaya</option>
+                <option value="Taita-Taveta">Taita-Taveta</option>
+                <option value="Tana River">Tana River</option>
+                <option value="Trans Nzoia">Trans Nzoia</option>
+                <option value="Turkana">Turkana</option>
+                <option value="Uasin Gishu">Uasin Gishu</option>
+                <option value="Vihiga">Vihiga</option>
+                <option value="Wajir">Wajir</option>
+                <option value="West Pokot">West Pokot</option>
+                <option value="Baringo">Baringo</option>
+                <option value="Bomet">Bomet</option>
+                <option value="Elgeyo-Marakwet">Elgeyo-Marakwet</option>
+                <option value="Kajiado">Kajiado</option>
+                <option value="Kiambu">Kiambu</option>
+                <option value="Kirinyaga">Kirinyaga</option>
+                <option value="Kitui">Kitui</option>
+                <option value="Kwale">Kwale</option>
+                <option value="Laikipia">Laikipia</option>
+                <option value="Makueni">Makueni</option>
+                <option value="Nyamira">Nyamira</option>
+                <option value="Tana River">Tana River</option>
+            </select>
+            
+            <input id="vehicleMake" placeholder="Make (e.g., Toyota, Nissan) *" required>
+            <input id="vehicleModel" placeholder="Model (e.g., Corolla, X-Trail) *" required>
+            <input type="number" id="vehicleYear" placeholder="Year of Manufacture *" min="1900" max="2025" required>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Exterior Colour *</label>
+            <input id="vehicleColour" placeholder="Exterior Colour *" required>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Interior Colour *</label>
+            <input id="vehicleInteriorColour" placeholder="Interior Colour *" required>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Condition *</label>
+            <select id="vehicleCondition" required>
+                <option value="">Select Condition</option>
+                <option value="Brand New">Brand New</option>
+                <option value="Used - Excellent">Used - Excellent</option>
+                <option value="Used - Very Good">Used - Very Good</option>
+                <option value="Used - Good">Used - Good</option>
+                <option value="Used - Fair">Used - Fair</option>
+                <option value="For Parts">For Parts</option>
+            </select>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Transmission *</label>
+            <select id="vehicleTransmission" required>
+                <option value="">Select Transmission</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+                <option value="CVT">CVT</option>
+                <option value="Semi-Automatic">Semi-Automatic</option>
+            </select>
+            
+            <input id="vehicleVin" placeholder="VIN/Chassis Number (Optional)">
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Exchange Possible? *</label>
+            <select id="vehicleExchange" required>
+                <option value="">Select Option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Sure">Not Sure</option>
+            </select>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Fuel Type *</label>
+            <select id="vehicleFuel" required>
+                <option value="">Select Fuel Type</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="LPG">LPG</option>
+            </select>
+            
+            <input type="number" id="vehicleSeats" placeholder="Number of Seats *" min="2" max="50" required>
+            <input type="number" id="vehicleCylinders" placeholder="Number of Cylinders *" min="2" max="16" required>
+            <input id="vehicleEngineSize" placeholder="Engine Size (e.g., 1.8L, 2.0L) *" required>
+            <input id="vehicleHorsePower" placeholder="Horse Power (Optional)">
+            
+            <input type="number" id="vehiclePrice" placeholder="Price (KSH) *" min="0" step="1000" required>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Price Negotiable? *</label>
+            <select id="vehicleNegotiation" required>
+                <option value="">Select Option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Sure">Not Sure</option>
+            </select>
+            
+            <textarea id="vehicleDesc" placeholder="Description *" rows="4" required></textarea>
+            <textarea id="vehicleMoreDesc" placeholder="More Description (Additional details)" rows="3"></textarea>
+            
+            <label style="display: block; margin-top: 10px; font-weight: bold;">Vehicle Images *</label>
+            <input type="file" id="vehicleImage" accept="image/*" multiple onchange="checkFileSize()">
+            <small id="fileSizeInfo" style="color: #666; display: block; margin: 5px 0;">Max 5 images, 5MB per image</small>
+            <small id="imageCountInfo" style="color: #666; display: block; margin: 5px 0;">Images selected: <span id="selectedImageCount">0</span>/5</small>
+            
+            <p id="vehicleCount" style="color: #666; margin: 10px 0;"><strong>Vehicles added: <span id="vehicleCountNum">0</span></strong></p>
+            <button onclick="addVehicle()">Add Vehicle</button>
+        </div>
+        <h3>Your Vehicles</h3>
+        <div id="sellerVehicles"></div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- BUYER DASHBOARD -->
+    <div id="buyerDashboard" class="hidden">
+        <div class="cart-icon" onclick="toggleCart()">
+            <span>🛒</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+        <h2>Available Vehicles</h2>
+        <div id="vehicleList"></div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- CART VIEW -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-view" id="cartView">
+        <h2>My Favorites 🛒</h2>
+        <button class="btn-secondary" onclick="toggleCart()" style="margin-bottom: 20px; background: #6c757d;">Close</button>
+        <div id="cartItems"></div>
+        <div class="empty-cart" id="emptyCart">
+            <p>Your favorites cart is empty</p>
+            <p>Add vehicles to your favorites!</p>
+        </div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatSection" class="hidden">
+        <h2>Chat</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <input id="chatMessage" placeholder="Type message">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="closeChat()">Close Chat</button>
+    </div>
+
+</div>
+
+<script>
+let currentUser = {};
+let vehicles = [];
+let chats = JSON.parse(localStorage.getItem("chats")) || [];
+let currentChatSeller = "";
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let token = localStorage.getItem("token") || null;
+let db = null;
+
+// Initialize IndexedDB
+function initDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("VEHH_DB", 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            db = request.result;
+            resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("vehicles")) {
+                db.createObjectStore("vehicles", { keyPath: "id" });
+            }
+        };
+    });
+}
+
+// Compress image
+function compressImage(file, maxWidth = 1920, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let width = img.width;
+                let height = img.height;
+                
+                // Calculate new dimensions
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width;
+                    width = maxWidth;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Convert to blob with compression
+                canvas.toBlob((blob) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                }, "image/jpeg", quality);
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Save vehicles to IndexedDB
+async function saveVehicles() {
+    if (!db) {
+        try {
+            await initDB();
+        } catch (error) {
+            console.error("IndexedDB init failed:", error);
+            // Fallback to localStorage with compression
+            try {
+                const compressed = JSON.stringify(vehicles);
+                localStorage.setItem("vehicles", compressed);
+            } catch (e) {
+                alert("Storage limit reached. Please remove some vehicles or clear browser data.");
+            }
+            return;
+        }
+    }
+    
+    const transaction = db.transaction(["vehicles"], "readwrite");
+    const store = transaction.objectStore("vehicles");
+    
+    // Clear existing and add all vehicles
+    store.clear();
+    vehicles.forEach(vehicle => {
+        store.add(vehicle);
+    });
+}
+
+// Load vehicles from IndexedDB
+function loadVehicles() {
+    return new Promise(async (resolve) => {
+        try {
+            await initDB();
+        } catch (error) {
+            console.error("IndexedDB init failed:", error);
+            // Fallback to localStorage
+            try {
+                vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+            } catch (e) {
+                vehicles = [];
+            }
+            resolve();
+            return;
+        }
+        
+        if (!db) {
+            resolve();
+            return;
+        }
+        
+        const transaction = db.transaction(["vehicles"], "readonly");
+        const store = transaction.objectStore("vehicles");
+        const request = store.getAll();
+        
+        request.onsuccess = () => {
+            vehicles = request.result || [];
+            resolve();
+        };
+        
+        request.onerror = () => {
+            // Fallback to localStorage
+            try {
+                vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+            } catch (e) {
+                vehicles = [];
+            }
+            resolve();
+        };
+    });
+}
+
+// Initialize on page load
+loadVehicles();
+
+function login() {
+    const name = username.value;
+    const phone = document.getElementById("phone").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+    const role = document.getElementById("role").value;
+    
+    if (!name) return alert("Enter name");
+    if (!phone) return alert("Enter phone number");
+    if (!whatsapp) return alert("Enter WhatsApp number");
+
+    currentUser = { name, phone, whatsapp, role };
+    loginDiv = document.getElementById("login");
+    loginDiv.classList.add("hidden");
+
+    if (role === "seller") {
+        document.getElementById("sellerDashboard").classList.remove("hidden");
+        loadVehicles().then(() => {
+            renderSellerVehicles();
+            updateVehicleCount();
+        });
+    } else {
+        document.getElementById("buyerDashboard").classList.remove("hidden");
+        loadVehicles().then(() => {
+            renderVehicles();
+            updateCartBadge();
+            loadCart();
+        });
+    }
+}
+
+function logout() {
+    location.reload();
+}
+
+function addVehicle() {
+    const name = document.getElementById("vehicleName").value;
+    const location = document.getElementById("vehicleLocation").value;
+    const make = document.getElementById("vehicleMake").value;
+    const model = document.getElementById("vehicleModel").value;
+    const year = document.getElementById("vehicleYear").value;
+    const colour = document.getElementById("vehicleColour").value;
+    const interiorColour = document.getElementById("vehicleInteriorColour").value;
+    const condition = document.getElementById("vehicleCondition").value;
+    const transmission = document.getElementById("vehicleTransmission").value;
+    const vin = document.getElementById("vehicleVin").value;
+    const exchange = document.getElementById("vehicleExchange").value;
+    const fuel = document.getElementById("vehicleFuel").value;
+    const seats = document.getElementById("vehicleSeats").value;
+    const cylinders = document.getElementById("vehicleCylinders").value;
+    const engineSize = document.getElementById("vehicleEngineSize").value;
+    const horsePower = document.getElementById("vehicleHorsePower").value;
+    const price = document.getElementById("vehiclePrice").value;
+    const negotiation = document.getElementById("vehicleNegotiation").value;
+    const desc = document.getElementById("vehicleDesc").value;
+    const moreDesc = document.getElementById("vehicleMoreDesc").value;
+    const imgFiles = document.getElementById("vehicleImage").files;
+
+    // Validate required fields
+    if (!name || !location || !make || !model || !year || !colour || !interiorColour || 
+        !condition || !transmission || !exchange || !fuel || !seats || !cylinders || 
+        !engineSize || !price || !negotiation || !desc || imgFiles.length === 0) {
+        alert("Please fill all required fields and select at least one image");
+        return;
+    }
+
+    // Check image count limit (5 images max)
+    if (imgFiles.length > 5) {
+        alert("Maximum 5 images allowed. Please select up to 5 images.");
+        return;
+    }
+
+    // Check file sizes (5MB max per image = 5 * 1024 * 1024 bytes)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    for (let i = 0; i < imgFiles.length; i++) {
+        if (imgFiles[i].size > maxSize) {
+            alert(`Image ${i + 1} is too large! Maximum size is 5MB per image. Your file is ${(imgFiles[i].size / (1024 * 1024)).toFixed(2)}MB. Please choose smaller images.`);
+            return;
+        }
+    }
+
+    // Compress and read all images
+    const imagePromises = [];
+    for (let i = 0; i < imgFiles.length; i++) {
+        imagePromises.push(compressImage(imgFiles[i], 1920, 0.75));
+    }
+
+    Promise.all(imagePromises)
+        .then(images => {
+            vehicles.push({
+                id: Date.now(),
+                seller: currentUser.name,
+                sellerPhone: currentUser.phone || "",
+                sellerWhatsapp: currentUser.whatsapp || "",
+                name,
+                location,
+                make,
+                model,
+                year: parseInt(year),
+                colour,
+                interiorColour,
+                condition,
+                transmission,
+                vin: vin || "",
+                exchange,
+                fuel,
+                seats: parseInt(seats),
+                cylinders: parseInt(cylinders),
+                engineSize,
+                horsePower: horsePower || "",
+                price: parseFloat(price),
+                negotiation,
+                desc,
+                moreDesc: moreDesc || "",
+                images: images, // Array of compressed images
+                img: images[0] // Keep first image for backward compatibility
+            });
+            
+            // Save to IndexedDB
+            saveVehicles().then(() => {
+                // Clear form
+                document.getElementById("vehicleName").value = "";
+                document.getElementById("vehicleLocation").value = "";
+                document.getElementById("vehicleMake").value = "";
+                document.getElementById("vehicleModel").value = "";
+                document.getElementById("vehicleYear").value = "";
+                document.getElementById("vehicleColour").value = "";
+                document.getElementById("vehicleInteriorColour").value = "";
+                document.getElementById("vehicleCondition").value = "";
+                document.getElementById("vehicleTransmission").value = "";
+                document.getElementById("vehicleVin").value = "";
+                document.getElementById("vehicleExchange").value = "";
+                document.getElementById("vehicleFuel").value = "";
+                document.getElementById("vehicleSeats").value = "";
+                document.getElementById("vehicleCylinders").value = "";
+                document.getElementById("vehicleEngineSize").value = "";
+                document.getElementById("vehicleHorsePower").value = "";
+                document.getElementById("vehiclePrice").value = "";
+                document.getElementById("vehicleNegotiation").value = "";
+                document.getElementById("vehicleDesc").value = "";
+                document.getElementById("vehicleMoreDesc").value = "";
+                document.getElementById("vehicleImage").value = "";
+                updateImageCount();
+                
+                renderSellerVehicles();
+                updateVehicleCount();
+                alert("Vehicle added successfully!");
+            }).catch(error => {
+                console.error("Error saving vehicle:", error);
+                alert("Vehicle added but there was an error saving. Please try again.");
+            });
+        })
+        .catch(error => {
+            alert(error.message || "Error processing image files. Please try again.");
+        });
+}
+
+function renderSellerVehicles() {
+    const div = document.getElementById("sellerVehicles");
+    div.innerHTML = "";
+    const sellerVehicles = vehicles.filter(v => v.seller === currentUser.name);
+    
+    sellerVehicles.forEach(v => {
+        const images = v.images || (v.img ? [v.img] : []);
+        const vehicleId = v.id;
+        
+        let imagesHTML = "";
+        if (images.length > 0) {
+            imagesHTML = `
+                <div class="image-gallery" id="gallery-${vehicleId}">
+                    <div class="image-slider" id="slider-${vehicleId}">
+                        ${images.map((img, index) => `<img src="${img}" onclick="openImageModal(${vehicleId}, ${index})">`).join('')}
+                    </div>
+                    ${images.length > 1 ? `
+                        <button class="image-nav prev" onclick="slideImage(${vehicleId}, -1)">‹</button>
+                        <button class="image-nav next" onclick="slideImage(${vehicleId}, 1)">›</button>
+                        <div class="image-indicators" id="indicators-${vehicleId}">
+                            ${images.map((_, index) => `<span class="image-indicator ${index === 0 ? 'active' : ''}" onclick="goToImage(${vehicleId}, ${index})"></span>`).join('')}
+                        </div>
+                        <div class="image-counter">1 / ${images.length}</div>
+                    ` : ''}
+                </div>`;
+        }
+        
+        const detailsHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0;">
+                ${v.location ? `<p><strong>Location:</strong> ${v.location}</p>` : ''}
+                ${v.make ? `<p><strong>Make:</strong> ${v.make}</p>` : ''}
+                ${v.model ? `<p><strong>Model:</strong> ${v.model}</p>` : ''}
+                ${v.year ? `<p><strong>Year:</strong> ${v.year}</p>` : ''}
+                ${v.colour ? `<p><strong>Colour:</strong> ${v.colour}</p>` : ''}
+                ${v.interiorColour ? `<p><strong>Interior:</strong> ${v.interiorColour}</p>` : ''}
+                ${v.condition ? `<p><strong>Condition:</strong> ${v.condition}</p>` : ''}
+                ${v.transmission ? `<p><strong>Transmission:</strong> ${v.transmission}</p>` : ''}
+                ${v.fuel ? `<p><strong>Fuel:</strong> ${v.fuel}</p>` : ''}
+                ${v.seats ? `<p><strong>Seats:</strong> ${v.seats}</p>` : ''}
+                ${v.cylinders ? `<p><strong>Cylinders:</strong> ${v.cylinders}</p>` : ''}
+                ${v.engineSize ? `<p><strong>Engine:</strong> ${v.engineSize}</p>` : ''}
+                ${v.horsePower ? `<p><strong>Horse Power:</strong> ${v.horsePower}</p>` : ''}
+                ${v.price ? `<p><strong>Price:</strong> KSH ${v.price.toLocaleString()}</p>` : ''}
+                ${v.negotiation ? `<p><strong>Negotiable:</strong> ${v.negotiation}</p>` : ''}
+                ${v.exchange ? `<p><strong>Exchange:</strong> ${v.exchange}</p>` : ''}
+                ${v.vin ? `<p><strong>VIN/Chassis:</strong> ${v.vin}</p>` : ''}
+            </div>
+        `;
+        
+        div.innerHTML += `
+            <div class="card">
+                <h4>${v.name || 'Unnamed Vehicle'}</h4>
+                ${imagesHTML}
+                ${detailsHTML}
+                <p><strong>Description:</strong> ${v.desc || ''}</p>
+                ${v.moreDesc ? `<p><strong>More Details:</strong> ${v.moreDesc}</p>` : ''}
+                <p style="color: #666; font-size: 12px;">${images.length} image(s)</p>
+                <button class="btn-remove" onclick="removeVehicle(${vehicleId})" style="margin-top: 10px;">Remove Vehicle</button>
+            </div>`;
+    });
+    
+    // Initialize swipe for all galleries
+    sellerVehicles.forEach(v => {
+        if (v.images && v.images.length > 1) {
+            initSwipe(v.id);
+        }
+    });
+    
+    updateVehicleCount();
+}
+
+function updateVehicleCount() {
+    if (currentUser.role === "seller") {
+        const sellerVehicles = vehicles.filter(v => v.seller === currentUser.name);
+        const countElement = document.getElementById("vehicleCountNum");
+        if (countElement) {
+            countElement.textContent = sellerVehicles.length;
+            countElement.style.color = "#28a745";
+        }
+    }
+}
+
+function removeVehicle(vehicleId) {
+    if (confirm("Are you sure you want to remove this vehicle?")) {
+        const index = vehicles.findIndex(v => v.id === vehicleId);
+        if (index > -1) {
+            vehicles.splice(index, 1);
+            saveVehicles().then(() => {
+                renderSellerVehicles();
+                // Also update buyer view if they're viewing
+                if (currentUser.role === "buyer") {
+                    renderVehicles();
+                }
+            }).catch(error => {
+                console.error("Error removing vehicle:", error);
+                // Still update UI even if save fails
+                renderSellerVehicles();
+                if (currentUser.role === "buyer") {
+                    renderVehicles();
+                }
+            });
+        }
+    }
+}
+
+function renderVehicles() {
+    const div = document.getElementById("vehicleList");
+    div.innerHTML = "";
+    vehicles.forEach(v => {
+        const isInCart = cart.some(item => item.id === v.id);
+        const phone = v.sellerPhone || "";
+        const whatsapp = v.sellerWhatsapp || "";
+        const phoneLink = phone ? `tel:${phone.replace(/[^0-9+]/g, '')}` : "#";
+        const whatsappLink = whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}` : "#";
+        
+        // Get all images (support both new format with images array and old format with single img)
+        const images = v.images || (v.img ? [v.img] : []);
+        const vehicleId = v.id;
+        
+        let imagesHTML = "";
+        if (images.length > 0) {
+            imagesHTML = `
+                <div class="image-gallery" id="gallery-${vehicleId}">
+                    <div class="image-slider" id="slider-${vehicleId}">
+                        ${images.map((img, index) => `<img src="${img}" onclick="openImageModal(${vehicleId}, ${index})">`).join('')}
+                    </div>
+                    ${images.length > 1 ? `
+                        <button class="image-nav prev" onclick="slideImage(${vehicleId}, -1)">‹</button>
+                        <button class="image-nav next" onclick="slideImage(${vehicleId}, 1)">›</button>
+                        <div class="image-indicators" id="indicators-${vehicleId}">
+                            ${images.map((_, index) => `<span class="image-indicator ${index === 0 ? 'active' : ''}" onclick="goToImage(${vehicleId}, ${index})"></span>`).join('')}
+                        </div>
+                        <div class="image-counter">1 / ${images.length}</div>
+                    ` : ''}
+                </div>`;
+        }
+        
+        const detailsHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                ${v.location ? `<p><strong>📍 Location:</strong> ${v.location}</p>` : ''}
+                ${v.make ? `<p><strong>Make:</strong> ${v.make}</p>` : ''}
+                ${v.model ? `<p><strong>Model:</strong> ${v.model}</p>` : ''}
+                ${v.year ? `<p><strong>Year:</strong> ${v.year}</p>` : ''}
+                ${v.colour ? `<p><strong>Colour:</strong> ${v.colour}</p>` : ''}
+                ${v.interiorColour ? `<p><strong>Interior:</strong> ${v.interiorColour}</p>` : ''}
+                ${v.condition ? `<p><strong>Condition:</strong> ${v.condition}</p>` : ''}
+                ${v.transmission ? `<p><strong>Transmission:</strong> ${v.transmission}</p>` : ''}
+                ${v.fuel ? `<p><strong>Fuel:</strong> ${v.fuel}</p>` : ''}
+                ${v.seats ? `<p><strong>Seats:</strong> ${v.seats}</p>` : ''}
+                ${v.cylinders ? `<p><strong>Cylinders:</strong> ${v.cylinders}</p>` : ''}
+                ${v.engineSize ? `<p><strong>Engine:</strong> ${v.engineSize}</p>` : ''}
+                ${v.horsePower ? `<p><strong>Horse Power:</strong> ${v.horsePower}</p>` : ''}
+                ${v.price ? `<p style="font-size: 18px; color: #28a745; font-weight: bold;"><strong>Price:</strong> KSH ${v.price.toLocaleString()}</p>` : ''}
+                ${v.negotiation ? `<p><strong>Negotiable:</strong> ${v.negotiation}</p>` : ''}
+                ${v.exchange ? `<p><strong>Exchange:</strong> ${v.exchange}</p>` : ''}
+                ${v.vin ? `<p><strong>VIN/Chassis:</strong> ${v.vin}</p>` : ''}
+            </div>
+        `;
+        
+        div.innerHTML += `
+            <div class="card">
+                <h3>${v.name || 'Unnamed Vehicle'}</h3>
+                ${imagesHTML}
+                ${detailsHTML}
+                <p><strong>Description:</strong> ${v.desc || ''}</p>
+                ${v.moreDesc ? `<p><strong>More Details:</strong> ${v.moreDesc}</p>` : ''}
+                <p><b>Seller:</b> ${v.seller}</p>
+                ${phone || whatsapp ? `
+                <div class="contact-buttons">
+                    ${phone ? `<a href="${phoneLink}" class="btn-call" style="text-decoration: none; color: white; padding: 10px; text-align: center; border-radius: 5px;">📞 Call</a>` : ''}
+                    ${whatsapp ? `<a href="${whatsappLink}" target="_blank" class="btn-whatsapp" style="text-decoration: none; color: white; padding: 10px; text-align: center; border-radius: 5px;">💬 WhatsApp</a>` : ''}
+                </div>
+                ` : ''}
+                <button onclick="openChat('${v.seller}')">Contact Seller</button>
+                <button class="favorite-btn ${isInCart ? 'added' : ''}" onclick="toggleCartItem(${v.id})">
+                    ${isInCart ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
+                </button>
+            </div>`;
+    });
+    
+    // Initialize swipe for all galleries
+    vehicles.forEach(v => {
+        if (v.images && v.images.length > 1) {
+            initSwipe(v.id);
+        }
+    });
+}
+
+function openChat(seller) {
+    currentChatSeller = seller;
+    document.getElementById("chatSection").classList.remove("hidden");
+    loadChat();
+}
+
+function sendMessage() {
+    const msg = chatMessage.value;
+    if (!msg) return;
+
+    chats.push({
+        seller: currentChatSeller,
+        sender: currentUser.role,
+        name: currentUser.name,
+        message: msg
+    });
+    localStorage.setItem("chats", JSON.stringify(chats));
+    chatMessage.value = "";
+    loadChat();
+}
+
+function loadChat() {
+    const box = document.getElementById("chatBox");
+    box.innerHTML = "";
+    chats.filter(c => c.seller === currentChatSeller).forEach(c => {
+        box.innerHTML += `<div class="message ${c.sender}">
+            <b>${c.name}:</b> ${c.message}
+        </div>`;
+    });
+}
+
+function closeChat() {
+    document.getElementById("chatSection").classList.add("hidden");
+}
+
+function toggleCartItem(vehicleId) {
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) return;
+
+    const index = cart.findIndex(item => item.id === vehicleId);
+    
+    if (index > -1) {
+        // Remove from cart
+        cart.splice(index, 1);
+    } else {
+        // Add to cart
+        cart.push(vehicle);
+    }
+    
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderVehicles();
+    renderCart();
+    updateCartBadge();
+    
+    // If user is authenticated, sync with API
+    if (token) {
+        syncCartWithAPI(vehicleId, index === -1);
+    }
+}
+
+function toggleCart() {
+    const cartView = document.getElementById("cartView");
+    const cartOverlay = document.getElementById("cartOverlay");
+    
+    if (cartView.classList.contains("open")) {
+        cartView.classList.remove("open");
+        cartOverlay.classList.remove("show");
+    } else {
+        cartView.classList.add("open");
+        cartOverlay.classList.add("show");
+        renderCart();
+    }
+}
+
+function renderCart() {
+    const cartItems = document.getElementById("cartItems");
+    const emptyCart = document.getElementById("emptyCart");
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = "";
+        emptyCart.style.display = "block";
+        return;
+    }
+    
+    emptyCart.style.display = "none";
+    cartItems.innerHTML = "";
+    
+    cart.forEach(item => {
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <h4>${item.name}</h4>
+                <img src="${item.img}">
+                <p>${item.desc}</p>
+                <p><b>Seller:</b> ${item.seller}</p>
+                <button class="btn-remove" onclick="toggleCartItem(${item.id})">Remove from Favorites</button>
+            </div>`;
+    });
+}
+
+function updateCartBadge() {
+    const badge = document.getElementById("cartBadge");
+    if (badge) {
+        badge.textContent = cart.length;
+        badge.style.display = cart.length > 0 ? "inline-block" : "none";
+    }
+}
+
+function loadCart() {
+    // Load cart from localStorage
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    updateCartBadge();
+    
+    // If user is authenticated, load from API
+    if (token) {
+        fetch("http://localhost:5000/api/cart", {
+            headers: {
+                "Authorization": token
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                // Merge API cart with local cart (for vehicles stored locally)
+                updateCartBadge();
+            }
+        })
+        .catch(err => console.log("Cart API not available, using localStorage"));
+    }
+}
+
+function syncCartWithAPI(vehicleId, isAdding) {
+    if (!token) return;
+    
+    const endpoint = isAdding ? `/api/cart/add/${vehicleId}` : `/api/cart/remove/${vehicleId}`;
+    const method = isAdding ? "POST" : "DELETE";
+    
+    fetch(`http://localhost:5000${endpoint}`, {
+        method: method,
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .catch(err => console.log("Failed to sync cart with API"));
+}
+
+function checkFileSize() {
+    const imgFiles = document.getElementById("vehicleImage").files;
+    const fileSizeInfo = document.getElementById("fileSizeInfo");
+    const imageCountInfo = document.getElementById("imageCountInfo");
+    const selectedImageCount = document.getElementById("selectedImageCount");
+    
+    if (imgFiles.length > 0) {
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        let totalSize = 0;
+        let hasLargeFile = false;
+        
+        for (let i = 0; i < imgFiles.length; i++) {
+            totalSize += imgFiles[i].size;
+            if (imgFiles[i].size > maxSize) {
+                hasLargeFile = true;
+            }
+        }
+        
+        const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+        const avgSizeMB = (totalSize / imgFiles.length / (1024 * 1024)).toFixed(2);
+        
+        if (hasLargeFile) {
+            fileSizeInfo.textContent = `Some files exceed 5MB limit! Average: ${avgSizeMB}MB per image`;
+            fileSizeInfo.style.color = "#dc3545";
+        } else {
+            fileSizeInfo.textContent = `Total: ${totalSizeMB}MB (${avgSizeMB}MB avg per image) / Max: 5MB per image`;
+            fileSizeInfo.style.color = "#28a745";
+        }
+        
+        // Update image count
+        if (selectedImageCount) {
+            selectedImageCount.textContent = imgFiles.length;
+            if (imgFiles.length > 5) {
+                selectedImageCount.style.color = "#dc3545";
+                imageCountInfo.style.color = "#dc3545";
+            } else {
+                selectedImageCount.style.color = "#28a745";
+                imageCountInfo.style.color = "#666";
+            }
+        }
+    } else {
+        fileSizeInfo.textContent = "Max 5 images, 5MB per image";
+        fileSizeInfo.style.color = "#666";
+        if (selectedImageCount) {
+            selectedImageCount.textContent = "0";
+            imageCountInfo.style.color = "#666";
+        }
+    }
+}
+
+function updateImageCount() {
+    const imgFiles = document.getElementById("vehicleImage").files;
+    const selectedImageCount = document.getElementById("selectedImageCount");
+    if (selectedImageCount) {
+        selectedImageCount.textContent = "0";
+    }
+    const fileSizeInfo = document.getElementById("fileSizeInfo");
+    if (fileSizeInfo) {
+        fileSizeInfo.textContent = "Max 5 images, 5MB per image";
+        fileSizeInfo.style.color = "#666";
+    }
+}
+
+let currentModalImages = [];
+let currentModalIndex = 0;
+let modalElement = null;
+
+function openImageModal(vehicleId, imageIndex = 0) {
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) return;
+    
+    currentModalImages = vehicle.images || (vehicle.img ? [vehicle.img] : []);
+    currentModalIndex = imageIndex;
+    
+    if (currentModalImages.length === 0) return;
+    
+    modalElement = document.createElement("div");
+    modalElement.id = "imageModal";
+    modalElement.style.cssText = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; cursor: pointer; touch-action: pan-y;";
+    
+    const modalContent = document.createElement("div");
+    modalContent.style.cssText = "position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;";
+    modalContent.onclick = (e) => {
+        if (e.target === modalContent || e.target.classList.contains('modal-close')) {
+            closeImageModal();
+        }
+    };
+    
+    const img = document.createElement("img");
+    img.src = currentModalImages[currentModalIndex];
+    img.style.cssText = "max-width: 90%; max-height: 90%; border-radius: 5px; object-fit: contain;";
+    img.onclick = (e) => e.stopPropagation();
+    
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "modal-close";
+    closeBtn.innerHTML = "✕";
+    closeBtn.style.cssText = "position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.7); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; cursor: pointer; z-index: 10001;";
+    
+    let navHTML = "";
+    if (currentModalImages.length > 1) {
+        navHTML = `
+            <button class="modal-nav modal-prev" onclick="event.stopPropagation(); navigateModal(-1)">‹</button>
+            <button class="modal-nav modal-next" onclick="event.stopPropagation(); navigateModal(1)">›</button>
+            <div class="modal-counter">${currentModalIndex + 1} / ${currentModalImages.length}</div>
+        `;
+    }
+    
+    modalContent.innerHTML = navHTML;
+    modalContent.appendChild(img);
+    modalContent.appendChild(closeBtn);
+    modalElement.appendChild(modalContent);
+    
+    document.body.appendChild(modalElement);
+    document.body.style.overflow = "hidden";
+    
+    // Initialize swipe for modal
+    initModalSwipe();
+    
+    // Keyboard navigation
+    document.addEventListener("keydown", handleModalKeyboard);
+}
+
+function closeImageModal() {
+    if (modalElement) {
+        document.body.removeChild(modalElement);
+        modalElement = null;
+        document.body.style.overflow = "";
+        document.removeEventListener("keydown", handleModalKeyboard);
+    }
+}
+
+function navigateModal(direction) {
+    currentModalIndex += direction;
+    if (currentModalIndex < 0) {
+        currentModalIndex = currentModalImages.length - 1;
+    } else if (currentModalIndex >= currentModalImages.length) {
+        currentModalIndex = 0;
+    }
+    
+    const img = modalElement.querySelector("img");
+    const counter = modalElement.querySelector(".modal-counter");
+    if (img) img.src = currentModalImages[currentModalIndex];
+    if (counter) counter.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
+}
+
+function handleModalKeyboard(e) {
+    if (e.key === "ArrowLeft") navigateModal(-1);
+    if (e.key === "ArrowRight") navigateModal(1);
+    if (e.key === "Escape") closeImageModal();
+}
+
+function initModalSwipe() {
+    if (!modalElement || currentModalImages.length <= 1) return;
+    
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    
+    const img = modalElement.querySelector("img");
+    if (!img) return;
+    
+    img.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+    
+    img.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+    });
+    
+    img.addEventListener("touchend", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = startX - currentX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                navigateModal(1); // Swipe left, go next
+            } else {
+                navigateModal(-1); // Swipe right, go prev
+            }
+        }
+    });
+}
+
+// Gallery swipe functions
+let galleryStates = {};
+
+function initSwipe(vehicleId) {
+    const gallery = document.getElementById(`gallery-${vehicleId}`);
+    if (!gallery) return;
+    
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let currentIndex = 0;
+    
+    gallery.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+    
+    gallery.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+    });
+    
+    gallery.addEventListener("touchend", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = startX - currentX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                slideImage(vehicleId, 1);
+            } else {
+                slideImage(vehicleId, -1);
+            }
+        }
+    });
+    
+    galleryStates[vehicleId] = { currentIndex: 0 };
+}
+
+function slideImage(vehicleId, direction) {
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) return;
+    
+    const images = vehicle.images || (vehicle.img ? [vehicle.img] : []);
+    if (images.length <= 1) return;
+    
+    if (!galleryStates[vehicleId]) {
+        galleryStates[vehicleId] = { currentIndex: 0 };
+    }
+    
+    let newIndex = galleryStates[vehicleId].currentIndex + direction;
+    if (newIndex < 0) newIndex = images.length - 1;
+    if (newIndex >= images.length) newIndex = 0;
+    
+    goToImage(vehicleId, newIndex);
+}
+
+function goToImage(vehicleId, index) {
+    const slider = document.getElementById(`slider-${vehicleId}`);
+    const indicators = document.getElementById(`indicators-${vehicleId}`);
+    const counter = document.querySelector(`#gallery-${vehicleId} .image-counter`);
+    
+    if (!slider) return;
+    
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) return;
+    const images = vehicle.images || (vehicle.img ? [vehicle.img] : []);
+    
+    slider.style.transform = `translateX(-${index * 100}%)`;
+    
+    if (indicators) {
+        const indicatorElements = indicators.querySelectorAll(".image-indicator");
+        indicatorElements.forEach((ind, i) => {
+            ind.classList.toggle("active", i === index);
+        });
+    }
+    
+    if (counter) {
+        counter.textContent = `${index + 1} / ${images.length}`;
+    }
+    
+    if (!galleryStates[vehicleId]) {
+        galleryStates[vehicleId] = { currentIndex: 0 };
+    }
+    galleryStates[vehicleId].currentIndex = index;
+}
+</script>
+
+<footer>
+    <p>All rights reserved by LAKI VEHICLES @ 2025</p>
+    <div style="margin-top: 10px;">
+        <a href="https://www.facebook.com/lakimotors" target="_blank" rel="noopener noreferrer" title="Follow us on Facebook">
+            📘 Facebook
+        </a>
+        <a href="https://www.tiktok.com/@lakivehicles?_r=1&_t=ZM-92YLnSYaoGa" target="_blank" rel="noopener noreferrer" title="Follow us on TikTok">
+            🎵 TikTok
+        </a>
+    </div>
+</footer>
+
+</body>
+</html>

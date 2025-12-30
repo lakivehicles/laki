@@ -1,0 +1,14 @@
+<button onclick="pay()">Pay Registration Fee</button>
+
+<script>
+async function pay() {
+    const res = await fetch("http://localhost:5000/api/payment/create-checkout", {
+        method: "POST",
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+    });
+    const data = await res.json();
+    window.location.href = data.url;
+}
+</script>

@@ -1,0 +1,15 @@
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+const socket = io("http://localhost:5000");
+
+function sendMessage() {
+    socket.emit("sendMessage", {
+        sender: "Buyer",
+        message: document.getElementById("msg").value
+    });
+}
+
+socket.on("receiveMessage", data => {
+    console.log(data.sender + ": " + data.message);
+});
+</script>
