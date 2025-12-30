@@ -17,10 +17,31 @@ const UserSchema = new mongoose.Schema({
 
 const VehicleSchema = new mongoose.Schema({
     name: String,
-    description: String,
+    location: String,
+    make: String,
+    model: String,
+    year: Number,
+    colour: String,
+    interiorColour: String,
+    condition: String,
+    transmission: String,
+    vin: String,
+    exchange: String,
+    fuel: String,
+    seats: Number,
+    cylinders: Number,
+    engineSize: String,
+    horsePower: String,
     price: Number,
-    image: String,
+    negotiation: String,
+    desc: String,
+    moreDesc: String,
+    images: [String], // Array of base64 images
+    img: String, // First image for backward compatibility
     seller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    sellerName: String, // Store seller name for quick access
+    sellerPhone: String,
+    sellerWhatsapp: String,
     createdAt: { type: Date, default: Date.now }
 });
 

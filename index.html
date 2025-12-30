@@ -2,22 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LAKI VEHICLES SALES PLATFORM</title>
 <style>
 body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
+    background-image: url('logo.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     margin: 0;
     padding: 0;
+    position: relative;
+    min-height: 100vh;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(244, 244, 244, 0.85);
+    z-index: -1;
 }
 header {
-    background: #222;
+    background: rgba(34, 34, 34, 0.95);
     color: white;
     padding: 15px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+header .logo {
+    max-width: 200px;
+    width: auto;
+    height: auto;
+    min-width: 150px;
+    min-height: 80px;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    object-fit: contain;
+    margin: 0 auto;
+    background: transparent;
+}
+header h1 {
+    margin: 0;
 }
 .container {
     padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 1200px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
 }
 .hidden {
     display: none;
@@ -249,7 +297,7 @@ img {
     z-index: 10;
 }
 footer {
-    background: #222;
+    background: rgba(34, 34, 34, 0.95);
     color: white;
     text-align: center;
     padding: 20px;
@@ -257,6 +305,8 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    z-index: 2;
 }
 .modal-nav {
     position: absolute;
@@ -304,30 +354,171 @@ footer a {
 footer a:hover {
     transform: scale(1.2);
 }
+footer p a {
+    font-size: 14px;
+    margin: 0;
+    transition: color 0.2s;
+}
+footer p a:hover {
+    color: #66b3ff;
+    text-decoration: underline;
+}
 footer p {
     margin: 10px 0;
+}
+@media (max-width: 768px) {
+    body {
+        background-size: cover;
+        background-attachment: scroll;
+    }
+    .cart-view {
+        width: 100%;
+        right: -100%;
+    }
+    .container {
+        padding: 10px;
+        margin: 10px;
+    }
+    .cart-icon {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    header {
+        padding: 10px;
+    }
+    header .logo {
+        max-width: 150px;
+        min-width: 120px;
+        min-height: 60px;
+    }
+    header h1 {
+        font-size: 18px;
+    }
+    .card {
+        padding: 10px;
+        margin: 8px 0;
+    }
+    input, textarea, select, button {
+        padding: 8px;
+        font-size: 16px;
+    }
+    .image-nav {
+        padding: 10px 8px;
+        font-size: 18px;
+    }
+    .modal-nav {
+        padding: 15px 10px;
+        font-size: 24px;
+    }
+    .modal-prev {
+        left: 10px;
+    }
+    .modal-next {
+        right: 10px;
+    }
+    footer {
+        padding: 15px;
+    }
+    footer a {
+        font-size: 18px;
+        margin: 0 5px;
+    }
+    /* Make grid layouts more responsive on tablets and phones */
+    .card > div[style*="grid"] {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    }
+}
+@media (max-width: 480px) {
+    body {
+        background-size: cover;
+        background-attachment: scroll;
+    }
+    .cart-view {
+        width: 100%;
+        right: -100%;
+        padding: 15px;
+    }
+    .container {
+        padding: 8px;
+        margin: 8px;
+    }
+    header .logo {
+        max-width: 120px;
+        min-width: 100px;
+        min-height: 50px;
+    }
+    header h1 {
+        font-size: 16px;
+    }
+    .card {
+        padding: 8px;
+    }
+    .contact-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .btn-call, .btn-whatsapp {
+        width: 100%;
+    }
+    /* Make grid layouts single column on very small screens */
+    .card > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
 }
 </style>
 </head>
 <body>
 
 <header>
-    <h1>🚗 LAKI VEHICLES SALES PLATFORM</h1>
+    <img src="logo.png" alt="LAKI VEHICLE Logo" class="logo" 
+         onerror="this.onerror=null; this.src='logo.jpg'; console.log('Trying logo.jpg as fallback');"
+         style="visibility: visible; opacity: 1;">
+    <h1>LAKI VEHICLES SALES PLATFORM</h1>
 </header>
 
 <div class="container">
 
-    <!-- LOGIN -->
+    <!-- LOGIN / REGISTER -->
     <div id="login">
-        <h2>Register / Login</h2>
-        <input id="username" placeholder="Enter name" required>
-        <input type="tel" id="phone" placeholder="Phone Number" required>
-        <input type="tel" id="whatsapp" placeholder="WhatsApp Number" required>
-        <select id="role">
-            <option value="buyer">Buyer</option>
-            <option value="seller">Seller</option>
-        </select>
-        <button onclick="login()">Continue</button>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd;">
+            <button onclick="showLoginForm()" id="loginTab" style="flex: 1; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px 5px 0 0;">Login</button>
+            <button onclick="showRegisterForm()" id="registerTab" style="flex: 1; padding: 10px; background: #f0f0f0; color: #333; border: none; cursor: pointer; border-radius: 5px 5px 0 0;">Register</button>
+        </div>
+        
+        <!-- LOGIN FORM (for existing users) -->
+        <div id="loginForm">
+            <h2>Login</h2>
+            <input type="text" id="loginUsername" placeholder="Username or Email" required>
+            <div style="position: relative;">
+                <input type="password" id="loginPassword" placeholder="Password" required style="padding-right: 40px;">
+                <button type="button" onclick="toggleLoginPasswordVisibility()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; font-size: 18px;">👁️</button>
+            </div>
+            <label style="display: flex; align-items: center; margin: 10px 0; cursor: pointer;">
+                <input type="checkbox" id="rememberMe" style="width: auto; margin-right: 8px;">
+                <span>Remember me</span>
+            </label>
+            <button onclick="login()">Login</button>
+        </div>
+        
+        <!-- REGISTER FORM (for new users) -->
+        <div id="registerForm" class="hidden">
+            <h2>Register</h2>
+            <input type="text" id="regUsername" placeholder="Enter name" required>
+            <input type="email" id="regEmail" placeholder="Email (optional)">
+            <input type="tel" id="regPhone" placeholder="Phone Number" required>
+            <input type="tel" id="regWhatsapp" placeholder="WhatsApp Number" required>
+            <div style="position: relative;">
+                <input type="password" id="regPassword" placeholder="Password" required style="padding-right: 40px;">
+                <button type="button" onclick="toggleRegPasswordVisibility()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; font-size: 18px;">👁️</button>
+            </div>
+            <select id="regRole">
+                <option value="buyer">Buyer</option>
+                <option value="seller">Seller</option>
+            </select>
+            <button onclick="register()">Register</button>
+        </div>
     </div>
 
     <!-- SELLER DASHBOARD -->
@@ -508,6 +699,9 @@ footer p {
 </div>
 
 <script>
+// API Configuration
+const API_BASE_URL = "http://localhost:5000/api";
+
 let currentUser = {};
 let vehicles = [];
 let chats = JSON.parse(localStorage.getItem("chats")) || [];
@@ -603,83 +797,323 @@ async function saveVehicles() {
     });
 }
 
-// Load vehicles from IndexedDB
-function loadVehicles() {
-    return new Promise(async (resolve) => {
+// Load vehicles from API (with fallback to local storage)
+async function loadVehicles() {
+    try {
+        // Try to fetch from API first
+        const response = await fetch(`${API_BASE_URL}/vehicles`);
+        if (response.ok) {
+            const apiVehicles = await response.json();
+            // Convert MongoDB _id to id for compatibility
+            vehicles = apiVehicles.map(v => ({
+                ...v,
+                id: v._id || v.id,
+                seller: v.sellerName || (v.seller && v.seller.name) || v.seller || "",
+                sellerPhone: v.sellerPhone || (v.seller && v.seller.phone) || "",
+                sellerWhatsapp: v.sellerWhatsapp || (v.seller && v.seller.whatsapp) || ""
+            }));
+            
+            // Sync to local storage as backup
+            await saveVehicles();
+            return;
+        }
+    } catch (error) {
+        console.log("API not available, loading from local storage:", error);
+    }
+    
+    // Fallback to local storage
+    try {
+        await initDB();
+    } catch (error) {
+        console.error("IndexedDB init failed:", error);
         try {
-            await initDB();
-        } catch (error) {
-            console.error("IndexedDB init failed:", error);
-            // Fallback to localStorage
-            try {
-                vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
-            } catch (e) {
-                vehicles = [];
-            }
-            resolve();
-            return;
+            vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+        } catch (e) {
+            vehicles = [];
         }
-        
-        if (!db) {
-            resolve();
-            return;
+        return;
+    }
+    
+    if (!db) {
+        try {
+            vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+        } catch (e) {
+            vehicles = [];
         }
-        
-        const transaction = db.transaction(["vehicles"], "readonly");
-        const store = transaction.objectStore("vehicles");
-        const request = store.getAll();
-        
-        request.onsuccess = () => {
-            vehicles = request.result || [];
-            resolve();
-        };
-        
-        request.onerror = () => {
-            // Fallback to localStorage
-            try {
-                vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
-            } catch (e) {
-                vehicles = [];
-            }
-            resolve();
-        };
-    });
+        return;
+    }
+    
+    const transaction = db.transaction(["vehicles"], "readonly");
+    const store = transaction.objectStore("vehicles");
+    const request = store.getAll();
+    
+    request.onsuccess = () => {
+        vehicles = request.result || [];
+    };
+    
+    request.onerror = () => {
+        try {
+            vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+        } catch (e) {
+            vehicles = [];
+        }
+    };
 }
 
 // Initialize on page load
 loadVehicles();
+// Show login form by default
+showLoginForm();
 
-function login() {
-    const name = username.value;
-    const phone = document.getElementById("phone").value;
-    const whatsapp = document.getElementById("whatsapp").value;
-    const role = document.getElementById("role").value;
+// Show login form
+function showLoginForm() {
+    document.getElementById("loginForm").classList.remove("hidden");
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loginTab").style.background = "#007bff";
+    document.getElementById("loginTab").style.color = "white";
+    document.getElementById("registerTab").style.background = "#f0f0f0";
+    document.getElementById("registerTab").style.color = "#333";
+}
+
+// Show register form
+function showRegisterForm() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("registerForm").classList.remove("hidden");
+    document.getElementById("registerTab").style.background = "#007bff";
+    document.getElementById("registerTab").style.color = "white";
+    document.getElementById("loginTab").style.background = "#f0f0f0";
+    document.getElementById("loginTab").style.color = "#333";
+}
+
+// Toggle password visibility for login
+function toggleLoginPasswordVisibility() {
+    const passwordInput = document.getElementById("loginPassword");
+    const passwordContainer = passwordInput.parentElement;
+    const toggleButton = passwordContainer.querySelector("button");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.textContent = "🙈";
+    } else {
+        passwordInput.type = "password";
+        toggleButton.textContent = "👁️";
+    }
+}
+
+// Toggle password visibility for register
+function toggleRegPasswordVisibility() {
+    const passwordInput = document.getElementById("regPassword");
+    const passwordContainer = passwordInput.parentElement;
+    const toggleButton = passwordContainer.querySelector("button");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.textContent = "🙈";
+    } else {
+        passwordInput.type = "password";
+        toggleButton.textContent = "👁️";
+    }
+}
+
+// Load saved login information
+function loadSavedLoginInfo() {
+    const savedLogin = localStorage.getItem("savedLoginInfo");
+    if (savedLogin) {
+        try {
+            const loginInfo = JSON.parse(savedLogin);
+            if (loginInfo.username) {
+                document.getElementById("loginUsername").value = loginInfo.username || "";
+                document.getElementById("rememberMe").checked = true;
+            }
+        } catch (e) {
+            console.error("Error loading saved login info:", e);
+        }
+    }
+}
+
+// Check if user is already logged in
+if (token) {
+    fetch(`${API_BASE_URL}/auth/me`, {
+        headers: {
+            "Authorization": token
+        }
+    })
+    .then(res => res.json())
+    .then(user => {
+        if (user && !user.msg) {
+            currentUser = {
+                name: user.name,
+                phone: user.phone,
+                whatsapp: user.whatsapp,
+                role: user.role,
+                id: user._id
+            };
+            const loginDiv = document.getElementById("login");
+            loginDiv.classList.add("hidden");
+            
+            if (user.role === "seller") {
+                document.getElementById("sellerDashboard").classList.remove("hidden");
+                loadVehicles().then(() => {
+                    renderSellerVehicles();
+                    updateVehicleCount();
+                });
+            } else {
+                document.getElementById("buyerDashboard").classList.remove("hidden");
+                loadVehicles().then(() => {
+                    renderVehicles();
+                    updateCartBadge();
+                    loadCart();
+                });
+            }
+        } else {
+            // Token invalid, load saved login info
+            loadSavedLoginInfo();
+        }
+    })
+    .catch(err => {
+        console.log("Not logged in or token expired");
+        localStorage.removeItem("token");
+        token = null;
+        // Load saved login info
+        loadSavedLoginInfo();
+    });
+} else {
+    // No token, load saved login info
+    loadSavedLoginInfo();
+}
+
+// Login function (for existing users - username/email and password only)
+async function login() {
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const rememberMe = document.getElementById("rememberMe").checked;
+    
+    if (!username) return alert("Enter username or email");
+    if (!password) return alert("Enter password");
+
+    try {
+        // Login with backend using username/email and password
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        
+        if (data.msg) {
+            alert(data.msg);
+            return;
+        }
+
+        // Save token and user info
+        token = data.token;
+        localStorage.setItem("token", token);
+        currentUser = { 
+            name: data.user.name, 
+            phone: data.user.phone, 
+            whatsapp: data.user.whatsapp, 
+            role: data.user.role, 
+            id: data.user._id 
+        };
+        
+        // Save login information if "Remember me" is checked
+        if (rememberMe) {
+            const loginInfo = {
+                username: username
+                // Note: We don't save password for security
+            };
+            localStorage.setItem("savedLoginInfo", JSON.stringify(loginInfo));
+        } else {
+            // Remove saved login info if unchecked
+            localStorage.removeItem("savedLoginInfo");
+        }
+        
+        const loginDiv = document.getElementById("login");
+        loginDiv.classList.add("hidden");
+
+        if (data.user.role === "seller") {
+            document.getElementById("sellerDashboard").classList.remove("hidden");
+            await loadVehicles();
+            renderSellerVehicles();
+            updateVehicleCount();
+        } else {
+            document.getElementById("buyerDashboard").classList.remove("hidden");
+            await loadVehicles();
+            renderVehicles();
+            updateCartBadge();
+            loadCart();
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("Login failed. Please check your credentials and try again.");
+    }
+}
+
+// Register function (for new users)
+async function register() {
+    const name = document.getElementById("regUsername").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const phone = document.getElementById("regPhone").value.trim();
+    const whatsapp = document.getElementById("regWhatsapp").value.trim();
+    const password = document.getElementById("regPassword").value;
+    const role = document.getElementById("regRole").value;
     
     if (!name) return alert("Enter name");
     if (!phone) return alert("Enter phone number");
     if (!whatsapp) return alert("Enter WhatsApp number");
+    if (!password) return alert("Enter password");
 
-    currentUser = { name, phone, whatsapp, role };
-    loginDiv = document.getElementById("login");
-    loginDiv.classList.add("hidden");
+    try {
+        // Register with backend
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, phone, whatsapp, password, role })
+        });
 
-    if (role === "seller") {
-        document.getElementById("sellerDashboard").classList.remove("hidden");
-        loadVehicles().then(() => {
+        const data = await response.json();
+        
+        if (data.msg) {
+            alert(data.msg);
+            return;
+        }
+
+        // Save token and user info
+        token = data.token;
+        localStorage.setItem("token", token);
+        currentUser = { name, phone, whatsapp, role, id: data.user._id };
+        
+        const loginDiv = document.getElementById("login");
+        loginDiv.classList.add("hidden");
+
+        if (role === "seller") {
+            document.getElementById("sellerDashboard").classList.remove("hidden");
+            await loadVehicles();
             renderSellerVehicles();
             updateVehicleCount();
-        });
-    } else {
-        document.getElementById("buyerDashboard").classList.remove("hidden");
-        loadVehicles().then(() => {
+        } else {
+            document.getElementById("buyerDashboard").classList.remove("hidden");
+            await loadVehicles();
             renderVehicles();
             updateCartBadge();
             loadCart();
-        });
+        }
+        
+        alert("Registration successful! You are now logged in.");
+    } catch (error) {
+        console.error("Registration error:", error);
+        alert("Registration failed. Please try again.");
     }
 }
 
 function logout() {
+    // Optionally clear saved login info on logout
+    // Uncomment the line below if you want to clear saved info on logout
+    // localStorage.removeItem("savedLoginInfo");
+    localStorage.removeItem("token");
     location.reload();
 }
 
@@ -736,12 +1170,8 @@ function addVehicle() {
     }
 
     Promise.all(imagePromises)
-        .then(images => {
-            vehicles.push({
-                id: Date.now(),
-                seller: currentUser.name,
-                sellerPhone: currentUser.phone || "",
-                sellerWhatsapp: currentUser.whatsapp || "",
+        .then(async images => {
+            const vehicleData = {
                 name,
                 location,
                 make,
@@ -764,51 +1194,107 @@ function addVehicle() {
                 moreDesc: moreDesc || "",
                 images: images, // Array of compressed images
                 img: images[0] // Keep first image for backward compatibility
-            });
+            };
+
+            // Try to save to API first
+            if (token) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/vehicles`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": token
+                        },
+                        body: JSON.stringify(vehicleData)
+                    });
+
+                    if (response.ok) {
+                        const savedVehicle = await response.json();
+                        // Add to local array with converted id
+                        vehicleData.id = savedVehicle._id || savedVehicle.id;
+                        vehicleData.seller = currentUser.name;
+                        vehicleData.sellerPhone = currentUser.phone || "";
+                        vehicleData.sellerWhatsapp = currentUser.whatsapp || "";
+                        vehicles.push(vehicleData);
+                        
+                        // Also save to local storage as backup
+                        await saveVehicles();
+                        
+                        // Clear form
+                        clearVehicleForm();
+                        updateImageCount();
+                        
+                        renderSellerVehicles();
+                        updateVehicleCount();
+                        alert("Vehicle added successfully!");
+                        return;
+                    } else {
+                        const errorData = await response.json();
+                        throw new Error(errorData.msg || "Failed to save vehicle");
+                    }
+                } catch (error) {
+                    console.error("API save failed:", error);
+                    // Fall through to local storage save
+                }
+            }
+
+            // Fallback to local storage if API fails or no token
+            vehicleData.id = Date.now();
+            vehicleData.seller = currentUser.name;
+            vehicleData.sellerPhone = currentUser.phone || "";
+            vehicleData.sellerWhatsapp = currentUser.whatsapp || "";
+            vehicles.push(vehicleData);
             
             // Save to IndexedDB
-            saveVehicles().then(() => {
-                // Clear form
-                document.getElementById("vehicleName").value = "";
-                document.getElementById("vehicleLocation").value = "";
-                document.getElementById("vehicleMake").value = "";
-                document.getElementById("vehicleModel").value = "";
-                document.getElementById("vehicleYear").value = "";
-                document.getElementById("vehicleColour").value = "";
-                document.getElementById("vehicleInteriorColour").value = "";
-                document.getElementById("vehicleCondition").value = "";
-                document.getElementById("vehicleTransmission").value = "";
-                document.getElementById("vehicleVin").value = "";
-                document.getElementById("vehicleExchange").value = "";
-                document.getElementById("vehicleFuel").value = "";
-                document.getElementById("vehicleSeats").value = "";
-                document.getElementById("vehicleCylinders").value = "";
-                document.getElementById("vehicleEngineSize").value = "";
-                document.getElementById("vehicleHorsePower").value = "";
-                document.getElementById("vehiclePrice").value = "";
-                document.getElementById("vehicleNegotiation").value = "";
-                document.getElementById("vehicleDesc").value = "";
-                document.getElementById("vehicleMoreDesc").value = "";
-                document.getElementById("vehicleImage").value = "";
-                updateImageCount();
-                
-                renderSellerVehicles();
-                updateVehicleCount();
-                alert("Vehicle added successfully!");
-            }).catch(error => {
-                console.error("Error saving vehicle:", error);
-                alert("Vehicle added but there was an error saving. Please try again.");
-            });
+            await saveVehicles();
+            
+            // Clear form
+            clearVehicleForm();
+            updateImageCount();
+            
+            renderSellerVehicles();
+            updateVehicleCount();
+            alert("Vehicle added successfully! (Saved locally - sync when online)");
         })
         .catch(error => {
             alert(error.message || "Error processing image files. Please try again.");
         });
 }
 
+function clearVehicleForm() {
+    document.getElementById("vehicleName").value = "";
+    document.getElementById("vehicleLocation").value = "";
+    document.getElementById("vehicleMake").value = "";
+    document.getElementById("vehicleModel").value = "";
+    document.getElementById("vehicleYear").value = "";
+    document.getElementById("vehicleColour").value = "";
+    document.getElementById("vehicleInteriorColour").value = "";
+    document.getElementById("vehicleCondition").value = "";
+    document.getElementById("vehicleTransmission").value = "";
+    document.getElementById("vehicleVin").value = "";
+    document.getElementById("vehicleExchange").value = "";
+    document.getElementById("vehicleFuel").value = "";
+    document.getElementById("vehicleSeats").value = "";
+    document.getElementById("vehicleCylinders").value = "";
+    document.getElementById("vehicleEngineSize").value = "";
+    document.getElementById("vehicleHorsePower").value = "";
+    document.getElementById("vehiclePrice").value = "";
+    document.getElementById("vehicleNegotiation").value = "";
+    document.getElementById("vehicleDesc").value = "";
+    document.getElementById("vehicleMoreDesc").value = "";
+    document.getElementById("vehicleImage").value = "";
+}
+
 function renderSellerVehicles() {
     const div = document.getElementById("sellerVehicles");
     div.innerHTML = "";
-    const sellerVehicles = vehicles.filter(v => v.seller === currentUser.name);
+    // Filter by seller name or seller ID
+    const sellerVehicles = vehicles.filter(v => 
+        v.seller === currentUser.name || 
+        v.sellerName === currentUser.name ||
+        (v.seller && v.seller._id === currentUser.id) ||
+        (v.seller && v.seller === currentUser.id)
+    );
     
     sellerVehicles.forEach(v => {
         const images = v.images || (v.img ? [v.img] : []);
@@ -878,7 +1364,12 @@ function renderSellerVehicles() {
 
 function updateVehicleCount() {
     if (currentUser.role === "seller") {
-        const sellerVehicles = vehicles.filter(v => v.seller === currentUser.name);
+        const sellerVehicles = vehicles.filter(v => 
+            v.seller === currentUser.name || 
+            v.sellerName === currentUser.name ||
+            (v.seller && v.seller._id === currentUser.id) ||
+            (v.seller && v.seller === currentUser.id)
+        );
         const countElement = document.getElementById("vehicleCountNum");
         if (countElement) {
             countElement.textContent = sellerVehicles.length;
@@ -887,25 +1378,49 @@ function updateVehicleCount() {
     }
 }
 
-function removeVehicle(vehicleId) {
-    if (confirm("Are you sure you want to remove this vehicle?")) {
-        const index = vehicles.findIndex(v => v.id === vehicleId);
-        if (index > -1) {
-            vehicles.splice(index, 1);
-            saveVehicles().then(() => {
-                renderSellerVehicles();
-                // Also update buyer view if they're viewing
-                if (currentUser.role === "buyer") {
-                    renderVehicles();
-                }
-            }).catch(error => {
-                console.error("Error removing vehicle:", error);
-                // Still update UI even if save fails
-                renderSellerVehicles();
-                if (currentUser.role === "buyer") {
-                    renderVehicles();
+async function removeVehicle(vehicleId) {
+    if (!confirm("Are you sure you want to remove this vehicle?")) {
+        return;
+    }
+
+    // Try to delete from API first
+    if (token) {
+        try {
+            // Convert id to _id format if needed
+            const vehicleIdToDelete = vehicleId.toString().length < 12 ? vehicleId : vehicleId;
+            const response = await fetch(`${API_BASE_URL}/vehicles/${vehicleIdToDelete}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": token
                 }
             });
+
+            if (response.ok) {
+                // Remove from local array
+                const index = vehicles.findIndex(v => v.id == vehicleId || v._id == vehicleId);
+                if (index > -1) {
+                    vehicles.splice(index, 1);
+                }
+                await saveVehicles();
+                renderSellerVehicles();
+                if (currentUser.role === "buyer") {
+                    renderVehicles();
+                }
+                return;
+            }
+        } catch (error) {
+            console.error("API delete failed:", error);
+        }
+    }
+
+    // Fallback to local deletion
+    const index = vehicles.findIndex(v => v.id == vehicleId || v._id == vehicleId);
+    if (index > -1) {
+        vehicles.splice(index, 1);
+        await saveVehicles();
+        renderSellerVehicles();
+        if (currentUser.role === "buyer") {
+            renderVehicles();
         }
     }
 }
@@ -1422,6 +1937,9 @@ function goToImage(vehicleId, index) {
             🎵 TikTok
         </a>
     </div>
+    <p style="margin-top: 15px; font-size: 14px;">
+        Powered by <a href="https://lakitechsolution.github.io/lakitechsolution-/" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: none; font-weight: bold;">LAKI TECH SOLUTION</a>
+    </p>
 </footer>
 
 </body>
